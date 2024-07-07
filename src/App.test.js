@@ -1,13 +1,13 @@
-import { render, screen } from "@testing-library/react";
-import App from "./App";
+import { render, screen } from '@testing-library/react';
+import App from './App';
 
-test("renders learn react link", () => {
+test('renders learn react link', () => {
   render(<App />);
   const linkElement = screen.getByText(/My Clock App/i);
   expect(linkElement).toBeInTheDocument();
 });
 
-test("renders mode buttons", () => {
+test('renders mode buttons', () => {
   render(<App />);
   const clockButton = screen.getByText(/Clock/i);
   const stopwatchButton = screen.getByText(/Stopwatch/i);

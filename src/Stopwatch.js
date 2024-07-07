@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 const Stopwatch = () => {
   const [running, setRunning] = useState(false);
@@ -16,7 +16,7 @@ const Stopwatch = () => {
     <div>
       <div>{new Date(elapsed).toISOString().slice(11, 19)}</div>
       <button onClick={() => setRunning(!running)}>
-        {running ? "Stop" : "Start"}
+        {running ? 'Stop' : 'Start'}
       </button>
       <button
         onClick={() => {

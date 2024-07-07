@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 const Timer = () => {
   const [running, setRunning] = useState(false);
@@ -17,10 +17,10 @@ const Timer = () => {
       <input
         type="number"
         value={elapsed / 1000}
-        onChange={(e) => setElapsed(e.target.value * 1000)}
+        onChange={e => setElapsed(e.target.value * 1000)}
       />
       <button onClick={() => setRunning(!running)}>
-        {running ? "Stop" : "Start"}
+        {running ? 'Stop' : 'Start'}
       </button>
     </div>
   );

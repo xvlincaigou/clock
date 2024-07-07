@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 
 const Clock = () => {
   const [time, setTime] = useState(new Date());
@@ -9,20 +9,20 @@ const Clock = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const getHandAngle = (hand) => {
+  const getHandAngle = hand => {
     switch (hand) {
-      case "second":
+      case 'second':
         return time.getSeconds() * 6;
-      case "minute":
+      case 'minute':
         return time.getMinutes() * 6 + time.getSeconds() * 0.1;
-      case "hour":
+      case 'hour':
         return (time.getHours() % 12) * 30 + (time.getMinutes() / 60) * 30;
       default:
         return 0;
     }
   };
 
-  const getHandStyle = (hand) => {
+  const getHandStyle = hand => {
     const angle = getHandAngle(hand);
     const prevAngle = prevAngles.current[hand];
 
@@ -32,7 +32,7 @@ const Clock = () => {
 
     return {
       transform: `rotate(${adjustedAngle}deg)`,
-      transition: "transform 0.5s ease-in-out",
+      transition: 'transform 0.5s ease-in-out',
     };
   };
 
@@ -51,9 +51,9 @@ const Clock = () => {
           <line
             key={i}
             x1="50"
-            y1={i % 5 === 0 ? "2" : "5"}
+            y1={i % 5 === 0 ? '2' : '5'}
             x2="50"
-            y2={i % 5 === 0 ? "10" : "8"}
+            y2={i % 5 === 0 ? '10' : '8'}
             transform={`rotate(${i * 6} 50 50)`}
             stroke="black"
           />
@@ -66,7 +66,7 @@ const Clock = () => {
           stroke="black"
           strokeWidth="3"
           className="hour-hand"
-          style={getHandStyle("hour")}
+          style={getHandStyle('hour')}
         />
         <line
           x1="50"
@@ -76,7 +76,7 @@ const Clock = () => {
           stroke="black"
           strokeWidth="2"
           className="minute-hand"
-          style={getHandStyle("minute")}
+          style={getHandStyle('minute')}
         />
         <line
           x1="50"
@@ -86,7 +86,7 @@ const Clock = () => {
           stroke="red"
           strokeWidth="1"
           className="second-hand"
-          style={getHandStyle("second")}
+          style={getHandStyle('second')}
         />
       </svg>
     </div>
