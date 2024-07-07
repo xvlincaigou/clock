@@ -1,0 +1,34 @@
+/* src/App.css */
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.clock-container {
+  width: 300px;
+  height: 300px;
+  margin: auto;
+  position: relative;
+}
+
+.clock-face {
+  width: 100%;
+  height: 100%;
+}
+
+.hour-hand,
+.minute-hand,
+.second-hand {
+  transform-origin: 50% 50%;
+  transition: transform 0.5s ease-in-out;
+}
