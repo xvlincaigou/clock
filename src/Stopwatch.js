@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Stopwatch = () => {
+const Stopwatch = ({ mode }) => {
   const [running, setRunning] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [laps, setLaps] = useState([]);
@@ -17,10 +17,13 @@ const Stopwatch = () => {
     return () => clearInterval(interval);
   }, [running, elapsed]);
 
-  const formatTime = (time) => {
+  const formatTime = time => {
     const minutes = String(Math.floor(time / 60000)).padStart(2, '0');
     const seconds = String(Math.floor((time % 60000) / 1000)).padStart(2, '0');
-    const milliseconds = String(Math.floor((time % 1000) / 10)).padStart(2, '0');
+    const milliseconds = String(Math.floor((time % 1000) / 10)).padStart(
+      2,
+      '0'
+    );
     return `${minutes}:${seconds}.${milliseconds}`;
   };
 
@@ -29,6 +32,10 @@ const Stopwatch = () => {
     setLaps([...laps, lapTime]);
     setLastLap(elapsed);
   };
+
+  if (mode !== 'stopwatch') {
+    return null;
+  }
 
   return (
     <div>
@@ -46,9 +53,7 @@ const Stopwatch = () => {
       >
         Reset
       </button>
-      <button onClick={handleLap}>
-        Lap
-      </button>
+      <button onClick={handleLap}>Lap</button>
       <ul>
         {laps.map((lap, index) => (
           <li key={index}>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const Clock = () => {
+const Clock = ({ mode }) => {
   const [time, setTime] = useState(new Date());
   const prevAngles = useRef({ second: 0, minute: 0, hour: 0 });
 
@@ -92,6 +92,7 @@ const Clock = () => {
     </div>
   );
 
+  if (mode !== 'clock') return null;
   return <div>{renderClockFace()}</div>;
 };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Timer = () => {
+const Timer = ({ mode }) => {
   const [running, setRunning] = useState(false);
   const [elapsed, setElapsed] = useState(0);
 
@@ -11,6 +11,10 @@ const Timer = () => {
       return () => clearInterval(interval);
     }
   }, [running]);
+
+  if (mode !== 'timer') {
+    return null;
+  }
 
   return (
     <div>

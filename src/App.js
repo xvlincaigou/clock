@@ -4,25 +4,16 @@ import Clock from './Clock';
 import Stopwatch from './Stopwatch';
 import Timer from './Timer';
 import Alarm from './Alarm';
-import AlarmManager from './AlarmManager';  // By Getsuyo-bi
+import AlarmManager from './AlarmManager';
 
 function App() {
   const [mode, setMode] = useState('clock');
-  const [alarms, setAlarms] = useState(JSON.parse(localStorage.getItem('alarms')) || []); // By Getsuyo-bi
-  const [audioURL, setAudioURL] = useState(localStorage.getItem('audioFileURL') || '');   // By Getsuyo-bi
-
-  const renderMode = () => {
-    switch (mode) {
-      case 'stopwatch':
-        return <Stopwatch />;
-      case 'timer':
-        return <Timer />;
-      case 'alarm':
-        return <Alarm setAlarms={setAlarms} setAudioURL={setAudioURL} />;
-      default:
-        return <Clock />;
-    }
-  };
+  const [alarms, setAlarms] = useState(
+    JSON.parse(localStorage.getItem('alarms')) || []
+  );
+  const [audioURL, setAudioURL] = useState(
+    localStorage.getItem('audioFileURL') || ''
+  );
 
   return (
     <div className="App">
@@ -34,7 +25,12 @@ function App() {
           <button onClick={() => setMode('timer')}>Timer</button>
           <button onClick={() => setMode('alarm')}>Alarm</button>
         </div>
-        {renderMode()}
+        <div className="components-container">
+          <Clock mode={mode} />
+          <Stopwatch mode={mode} />
+          <Timer mode={mode} />
+          <Alarm mode={mode} setAlarms={setAlarms} setAudioURL={setAudioURL} />
+        </div>
         <AlarmManager alarms={alarms} audioURL={audioURL} />
       </header>
     </div>
