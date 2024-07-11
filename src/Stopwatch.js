@@ -46,7 +46,8 @@ const Stopwatch = ({ mode }) => {
 
   const handleLap = () => {
     const lapTime = elapsed - lastLap;
-    setLaps([...laps, { lapTime, totalTime: elapsed }]);
+    const newLap = { lapTime, totalTime: elapsed, index: laps.length + 1 };
+    setLaps([newLap, ...laps]); // 新记录添加到顶部
     setLastLap(elapsed);
   };
 
@@ -59,6 +60,9 @@ const Stopwatch = ({ mode }) => {
     localStorage.removeItem('elapsed');
     localStorage.removeItem('running');
   };
+
+  const minLapTime = laps.length ? Math.min(...laps.map(lap => lap.lapTime)) : null;
+  const maxLapTime = laps.length ? Math.max(...laps.map(lap => lap.lapTime)) : null;
 
   if (mode !== 'stopwatch') {
     return null;
@@ -74,15 +78,22 @@ const Stopwatch = ({ mode }) => {
         Reset
       </button>
       <button onClick={handleLap}>Lap</button>
-      <ul>
-        {laps.map((lap, index) => (
-          <li key={index}>
-            Lap {index + 1}: {formatTime(lap.lapTime)} &emsp;Total: {formatTime(lap.totalTime)}
-          </li>
-        ))}
-      </ul>
+      <div style={{ width: '300px', maxHeight: '200px', minHeight: '200px', overflowY: 'scroll', border: '1px solid #ccc', marginTop: '10px', backgroundColor: 'white' }}>
+        <ul style={{ padding: '0', margin: '0', listStyleType: 'none' }}>
+          {laps.map((lap) => (
+            <li key={lap.index} style={{ padding: '5px 0', borderBottom: '1px solid #ddd' }}>
+              <div style={{ color: lap.lapTime === minLapTime ? 'green' : lap.lapTime === maxLapTime ? 'red' : 'black' }}>
+                Lap {lap.index}: {formatTime(lap.lapTime)}
+              </div>
+              <div style={{ color: 'black' }}>Total: {formatTime(lap.totalTime)}</div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
 
 export default Stopwatch;
+
+
