@@ -4,16 +4,9 @@ import Clock from './Clock';
 import Stopwatch from './Stopwatch';
 import Timer from './Timer';
 import Alarm from './Alarm';
-import AlarmManager from './AlarmManager';
 
 function App() {
   const [mode, setMode] = useState('clock');
-  const [alarms, setAlarms] = useState(
-    JSON.parse(localStorage.getItem('alarms')) || []
-  );
-  const [audioURL, setAudioURL] = useState(
-    localStorage.getItem('audioFileURL') || ''
-  );
 
   return (
     <div className="App">
@@ -29,9 +22,8 @@ function App() {
           <Clock mode={mode} />
           <Stopwatch mode={mode} />
           <Timer mode={mode} />
-          <Alarm mode={mode} setAlarms={setAlarms} setAudioURL={setAudioURL} />
+          <Alarm mode={mode} />
         </div>
-        <AlarmManager alarms={alarms} audioURL={audioURL} />
       </header>
     </div>
   );

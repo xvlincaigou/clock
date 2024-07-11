@@ -3,16 +3,17 @@
 /*** By Getsuyo-bi ***/
 
 self.onmessage = (e) => {
-    const { alarms, audioURL } = e.data;
+    const { alarmTime, audioUrl } = e.data;
     setInterval(() => {
-        const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
-        if (alarms && alarms.length > 0) {
-            alarms.forEach(alarm => {
-                if (currentTime >= alarm) {
-                    localStorage.setItem('currentAlarm', alarm);
-                    self.postMessage({ type: 'ALARM_TRIGGERED', audioURL });
-                }
-            });
+        const currentTime = new Date();
+        const [hours, minutes] = alarmTime.split(':');
+        const alarmDate = new Date();
+        alarmDate.setHours(hours);
+        alarmDate.setMinutes(minutes);
+        alarmDate.setSeconds(0);
+
+        if (currentTime >= alarmDate) {
+            self.postMessage({ type: 'ALARM_TRIGGERED', audioUrl });
         }
     }, 1000);
 };
