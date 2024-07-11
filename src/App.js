@@ -18,7 +18,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>My Clock App</h1>
+        <h1>寸阴寸金</h1>
         <div className="mode-buttons">
           <button onClick={() => setMode('clock')}>Clock</button>
           <button onClick={() => setMode('stopwatch')}>Stopwatch</button>
