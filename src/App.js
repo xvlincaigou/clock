@@ -11,12 +11,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>寸阴寸金</h1>
+        <h1 className='title'>寸阴寸金</h1>
         <div className="mode-buttons">
-          <button onClick={() => setMode('clock')}>Clock</button>
-          <button onClick={() => setMode('stopwatch')}>Stopwatch</button>
-          <button onClick={() => setMode('timer')}>Timer</button>
-          <button onClick={() => setMode('alarm')}>Alarm</button>
+          <button className="btn btn-info" onClick={() => setMode('clock')}><strong>Clock</strong></button>
+          <button className="btn btn-info" onClick={() => setMode('stopwatch')}><strong>Stopwatch</strong></button>
+          <button className="btn btn-info" onClick={() => setMode('timer')}><strong>Timer</strong></button>
+          <button className="btn btn-info" onClick={() => setMode('alarm')}><strong>Alarm</strong></button>
         </div>
         <div className="components-container">
           <Clock mode={mode} />
