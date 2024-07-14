@@ -1,0 +1,136 @@
+.timer-container {
+  border-radius: 8px;
+  border: 2px solid #62B6CB;
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #CAE9FF;
+  position: relative; /* For absolute positioning of the sandglass */
+}
+
+.timer-input {
+  width: 75px;
+  padding: 5px;
+  border: 1px solid #5FA8D3;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.control-button {
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #62B6CB;
+  color: white;
+  cursor: pointer;
+}
+
+.remaining-time {
+  font-size: 24px;
+  color: #1B4965;
+  background-color: #CAE9FF;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+  display: block;
+  width: calc(100% - 150px); /* Adjust width to make space for the sandglass */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-right: auto;
+  height: 120px; /* Set height */
+  line-height: 50px; /* Increase line height */
+}
+
+.main {
+  position: absolute;
+  top : 155px;
+  right: 10px; 
+  transform: translate(-50%,-50%);
+  width: 60px; 
+  height: 120px; 
+  animation: turn 6s linear infinite;
+}
+
+.up,
+.down {
+  position: absolute;
+  width: 60px; /* Adjust width */
+  height: 60px; /* Adjust height */
+  border: 4px solid #62B6CB;
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: 0 0 6px #BEE9E8, 0 0 12px #BEE9E8, inset 0 0 10px #CAE9FF,
+    inset 0 0 12px #CAE9FF, inset 0 0 24px #CAE9FF;
+}
+
+.up {
+  top: 0;
+  border-bottom-left-radius: 45% 100%;
+  border-bottom-right-radius: 45% 100%;
+  border-bottom: none;
+  border-top: 3.6px solid #1B4965;
+}
+
+.down {
+  bottom: 0;
+  border-top-left-radius: 45% 100%;
+  border-top-right-radius: 45% 100%;
+  border-top: none;
+  border-bottom: 3.6px solid #1B4965;
+}
+
+.up::before,
+.down::before {
+  content: "";
+  position: absolute;
+  left:0;
+  width: 100%;
+  background: #5FA8D3;
+  filter: blur(2.4px);
+  bottom: 0;
+  z-index: -1;
+}
+
+.up::before {
+  height: 100%;
+  animation: fillup 6s linear infinite;
+}
+
+.down::before {
+  height: 0;
+  animation: filldown 6s linear infinite;
+}
+
+@keyframes turn {
+  0%, 40% {
+    transform: translate(-50%,-50%);
+  }
+  50%, 90% {
+    transform: translate(-50%,-50%) rotate(180deg);
+  }
+  100% {
+    transform: translate(-50%,-50%) rotate(360deg);
+  }
+}
+
+@keyframes fillup {
+  40%, 50% {
+    height: 0;
+  }
+  90%, 100% {
+    top: 0;
+    height: 100%;
+  }
+}
+
+@keyframes filldown {
+  40%, 50% {
+    height: 100%;
+  }
+  90%, 100% {
+    top: 0;
+    height: 0;
+  }
+}
+
