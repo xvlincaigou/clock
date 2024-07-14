@@ -74,12 +74,8 @@ const Timer = ({ mode }) => {
   }
 
   return (    
-    <div>
-      <div className="timer-container">
-        <div className="main"> {/* Sandglass animation */}
-          <div className="up"></div>
-          <div className="down"></div>
-        </div>
+    <div className='timer-container'>
+      <div className="timer-inputAndButtons-container">
         <input type="number" className="timer-input" placeholder="Hours" value={padNumber(hours)} onChange={handleHourChange} />
         <input type="number" className="timer-input" placeholder="Minutes" value={padNumber(minutes)} onChange={handleMinuteChange} />
         <input type="number" className="timer-input" placeholder="Seconds" value={padNumber(seconds)} onChange={handleSecondChange} />
@@ -87,8 +83,13 @@ const Timer = ({ mode }) => {
         <button onClick={resetTimer} className="control-button">Reset</button>
       </div>
       <div className="remaining-time">
-        Remaining Time:<br/>{formatTime(remainingTime)}
+        Remaining Time:<br />{formatTime(remainingTime)}
       </div>
+      <div className="shalou"> {/* Sandglass animation */}
+          <div className="up"></div>
+          <div className="down"></div>
+      </div>
+      
     </div>
     
   );

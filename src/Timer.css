@@ -1,4 +1,8 @@
 .timer-container {
+  position: relative;
+}
+
+.timer-inputAndButtons-container {
   border-radius: 8px;
   border: 2px solid #62B6CB;
   padding: 10px;
@@ -42,13 +46,12 @@
   line-height: 50px; /* Increase line height */
 }
 
-.main {
+.shalou {
   position: absolute;
-  top : 155px;
-  right: 10px; 
-  transform: translate(-50%,-50%);
-  width: 60px; 
-  height: 120px; 
+  top: calc(100% - 60px); 
+  right: 0px; 
+  width: 60px;
+  height: 120px;
   animation: turn 6s linear infinite;
 }
 
