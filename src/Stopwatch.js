@@ -7,17 +7,14 @@ const Stopwatch = ({ mode }) => {
   const [lastLap, setLastLap] = useState(0);
 
   useEffect(() => {
-    // 读取本地存储中的开始时间和已用时间
-    const savedStartTime = localStorage.getItem('startTime');
-    const savedElapsed = parseInt(localStorage.getItem('elapsed'), 10);
-    if (savedStartTime && !isNaN(savedElapsed)) {
-      const now = Date.now();
-      const adjustedElapsed = now - parseInt(savedStartTime, 10) + savedElapsed;
-      setElapsed(adjustedElapsed);
-      if (localStorage.getItem('running') === 'true') {
-        setRunning(true);
-      }
-    }
+    // 清除本地存储，确保每次刷新页面时重置计时器
+    localStorage.removeItem('startTime');
+    localStorage.removeItem('elapsed');
+    localStorage.removeItem('running');
+    setRunning(false);
+    setElapsed(0);
+    setLaps([]);
+    setLastLap(0);
   }, []);
 
   useEffect(() => {
@@ -70,30 +67,45 @@ const Stopwatch = ({ mode }) => {
 
   return (
     <div>
-      <div>{formatTime(elapsed)}</div>
-      <button onClick={() => setRunning(!running)}>
-        {running ? 'Stop' : 'Start'}
-      </button>
-      <button onClick={handleReset}>
-        Reset
-      </button>
-      <button onClick={handleLap}>Lap</button>
-      <div style={{ width: '300px', maxHeight: '200px', minHeight: '200px', overflowY: 'scroll', border: '1px solid #ccc', marginTop: '10px', backgroundColor: 'white' }}>
-        <ul style={{ padding: '0', margin: '0', listStyleType: 'none' }}>
+      <div style={{ backgroundColor: '#CAE9FF', borderRadius: '10px', padding: '10px', border: '2px solid #5FA8D3', fontSize: '1.2em', textAlign: 'center', color: 'black', marginBottom: '20px' }}>
+        {formatTime(elapsed)}
+      </div>
+      <div style={{ marginBottom: '20px' }}>
+        <button style={{ backgroundColor: '#62B6CB', color: 'white', padding: '10px', border: 'none', borderRadius: '5px', marginRight: '10px', fontSize: '0.8em' }} onClick={() => setRunning(!running)}>
+          {running ? 'Stop' : 'Start'}
+        </button>
+        <button style={{ backgroundColor: '#62B6CB', color: 'white', padding: '10px', border: 'none', borderRadius: '5px', marginRight: '10px', fontSize: '0.8em' }} onClick={handleReset}>
+          Reset
+        </button>
+        <button style={{ backgroundColor: '#62B6CB', color: 'white', padding: '10px', border: 'none', borderRadius: '5px', fontSize: '0.8em' }} onClick={handleLap}>
+          Lap
+        </button>
+      </div>
+      <div style={{ backgroundColor: '#CAE9FF', borderRadius: '10px', width: '300px', maxHeight: '200px', minHeight: '200px', overflowY: 'scroll', border: '1px solid #5FA8D3', padding: '5px' }}>
+        <ul style={{ padding: '0', margin: '0', listStyleType: 'none', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {laps.map((lap) => (
-            <li key={lap.index} style={{ padding: '5px 0', borderBottom: '1px solid #ddd' }}>
-              <div style={{ color: lap.lapTime === minLapTime ? 'green' : lap.lapTime === maxLapTime ? 'red' : 'black' }}>
+            <li key={lap.index} style={{ padding: '5px 0', borderBottom: '1px solid #003366', color: 'black', position: 'relative' }}>
+              <div style={{
+                display: 'inline-block',
+                borderRadius: '5px',
+                padding: '2px 5px',
+                backgroundColor: lap.lapTime === minLapTime ? 'green' : lap.lapTime === maxLapTime ? 'red' : 'transparent',
+                color: lap.lapTime === minLapTime || lap.lapTime === maxLapTime ? 'white' : 'black'
+              }}>
                 Lap {lap.index}: {formatTime(lap.lapTime)}
               </div>
-              <div style={{ color: 'black' }}>Total: {formatTime(lap.totalTime)}</div>
+              <div style={{ color: 'black', position: 'relative', top: '5px' }}>Total: {formatTime(lap.totalTime)}</div>
             </li>
           ))}
         </ul>
       </div>
+      <style jsx>{`
+        ::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 };
 
 export default Stopwatch;
-
-
