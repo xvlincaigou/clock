@@ -1,32 +1,40 @@
 import React, { useState, useEffect } from 'react';
 
 const Clock = ({ mode }) => {
-  // 初始化角度
-  const initialTime = new Date();
-  const initialAngles = {
-    second: initialTime.getSeconds() * 6,
-    minute: initialTime.getMinutes() * 6 + initialTime.getSeconds() * 0.1,
-    hour:
-      (initialTime.getHours() % 12) * 30 + (initialTime.getMinutes() / 60) * 30,
+  const calculateAngles = date => {
+    const seconds = date.getSeconds() + date.getMilliseconds() / 1000;
+    const minutes = date.getMinutes() + seconds / 60;
+    const hours = (date.getHours() % 12) + minutes / 60;
+    return {
+      second: seconds * 6,
+      minute: minutes * 6,
+      hour: hours * 30,
+    };
   };
 
-  const [angles, setAngles] = useState(initialAngles);
+  const [angles, setAngles] = useState(calculateAngles(new Date()));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setAngles(prevAngles => ({
-        second: prevAngles.second + 6,
-        minute: prevAngles.minute + 0.1,
-        hour: prevAngles.hour + 1 / 120,
-      }));
-    }, 1000);
+      setAngles(calculateAngles(new Date()));
+    }, 50);
     return () => clearInterval(interval);
   }, []);
 
-  const getHandStyle = hand => ({
-    transform: `rotate(${angles[hand]}deg)`,
-    //transition: 'transform 0.5s ease-in-out',
-  });
+  const getHandStyle = hand => {
+    if (hand === 'second') {
+      console.log(angles[hand]);
+    }
+    if (hand === 'second' && angles[hand] < 0.3) return {
+      transform: `rotate(0deg)`,
+      transition: 'transform 0.005s linear',
+    };
+    return {
+      transform: `rotate(${angles[hand]}deg)`,
+      transition:
+        hand === 'second' ? 'transform 1s linear' : 'transform 0.01s linear',
+    };
+  };
 
   const formatTime = () => {
     const time = new Date();
@@ -61,7 +69,6 @@ const Clock = ({ mode }) => {
               stroke="black"
             />
           ))}
-          {/* 添加数字 */}
           {[...Array(12)].map((_, i) => {
             const angle = (i + 1) * 30;
             const radian = (angle - 90) * (Math.PI / 180);
@@ -74,7 +81,6 @@ const Clock = ({ mode }) => {
               </text>
             );
           })}
-          {/* 时、分、秒针 */}
           <line
             x1="50"
             y1="50"
