@@ -22,17 +22,24 @@ const Clock = ({ mode }) => {
   }, []);
 
   const getHandStyle = hand => {
-    if (hand === 'second') {
-      console.log(angles[hand]);
-    }
-    if (hand === 'second' && angles[hand] < 0.3) return {
-      transform: `rotate(0deg)`,
-      transition: 'transform 0.005s linear',
-    };
+    if (hand === 'second' && angles[hand] < 0.4)
+      return {
+        transform: `rotate(0deg)`,
+        transition: 'transform 0.005s linear',
+      };
+    if (hand === 'minute' && angles[hand] < 0.007)
+      return {
+        transform: `rotate(0deg)`,
+        transition: 'transform 0.005s linear',
+      };
+    if (hand === 'hour' && angles[hand] < 0.0006)
+      return {
+        transform: `rotate(0deg)`,
+        transition: 'transform 0.005s linear',
+      };
     return {
       transform: `rotate(${angles[hand]}deg)`,
-      transition:
-        hand === 'second' ? 'transform 1s linear' : 'transform 0.01s linear',
+      transition: 'transform 0.05s linear',
     };
   };
 
