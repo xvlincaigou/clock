@@ -121,7 +121,8 @@ const Clock = ({ mode }) => {
   };
 
   const formatTime = () => {
-    const time = new Date();
+    const date = new Date();
+    const time = new Date(date.getTime() + offset);
     return `${time.getHours().toString().padStart(2, '0')}:${time
       .getMinutes()
       .toString()
