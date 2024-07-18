@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Clock = ({ mode }) => {
   const calculateAngles = (date, offset) => {
@@ -14,9 +14,10 @@ const Clock = ({ mode }) => {
   };
 
   const [angles, setAngles] = useState(calculateAngles(new Date(), 0));
-  const [offset, setOffset] = useState(0);
   const [isAdjusting, setIsAdjusting] = useState(false);
   const [adjustBeginTime, setAdjustBeginTime] = useState(null);
+  const [offset, setOffset] = useState(0);
+  const appendedOffset = useRef(0);
 
   useEffect(() => {
     if (!isAdjusting) {
@@ -68,13 +69,17 @@ const Clock = ({ mode }) => {
       const dy = moveEvent.clientY - centerY;
       const rawAngle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
       const newAngle = rawAngle > 0 ? rawAngle : 360 + rawAngle;
-
+      
       setAngles(prevAngles => {
-        
         const absAngleDiff = Math.abs(newAngle - prevAngles[hand]);
-        const absSmallerAngleDiff = absAngleDiff > 180 ? 360 - absAngleDiff : absAngleDiff;
-        const angleDiff = prevAngles[hand] + absSmallerAngleDiff === newAngle || prevAngles[hand] + absSmallerAngleDiff === newAngle + 360 ? absSmallerAngleDiff : -absSmallerAngleDiff;
-        
+        const absSmallerAngleDiff =
+          absAngleDiff > 180 ? 360 - absAngleDiff : absAngleDiff;
+        const angleDiff =
+          prevAngles[hand] + absSmallerAngleDiff === newAngle ||
+          prevAngles[hand] + absSmallerAngleDiff === newAngle + 360
+            ? absSmallerAngleDiff
+            : -absSmallerAngleDiff;
+
         let hourOffset = 0,
           minuteOffset = 0,
           secondOffset = 0;
@@ -92,20 +97,17 @@ const Clock = ({ mode }) => {
           minuteOffset = angleDiff * (1 / 60);
           hourOffset = angleDiff * (1 / 720);
         }
-        /*
-        if (hand === 'hour') {
-          setOffset(prev => prev + (newAngle - angles[hand]) * 120000);
-        } else if (hand === 'minute') {
-          setOffset(prev => prev + (newAngle - angles[hand]) * 60000);
-        } else {
-          setOffset(prev => prev + (newAngle - angles[hand]) * 1000);
-        }
-        */
-        return {
+
+        const newAngles = {
           hour: (prevAngles.hour + hourOffset + 360) % 360,
           minute: (prevAngles.minute + minuteOffset + 360) % 360,
           second: (prevAngles.second + secondOffset + 360) % 360,
         };
+    
+        const multiplier = hand === 'hour' ? 60000 : hand === 'minute' ? 5000 : (500 / 6);
+        appendedOffset.current += angleDiff * multiplier;
+        console.log(appendedOffset, "new!");
+        return newAngles;
       });
     };
 
@@ -202,6 +204,11 @@ const Clock = ({ mode }) => {
           className="btn btn-secondary"
           onClick={() => {
             if (isAdjusting) {
+              console.log(appendedOffset.current, "appendedOffset");
+              const newOffset = offset + appendedOffset.current - (new Date() - adjustBeginTime);
+              console.log(newOffset, "newOffset!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+              setOffset(newOffset);
+              appendedOffset.current = 0; 
             } else {
               setAdjustBeginTime(new Date());
             }
