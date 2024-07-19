@@ -29,6 +29,7 @@
   height: 300px;
   margin: auto;
   position: relative;
+  user-select: none;
 }
 
 .clock-face {
