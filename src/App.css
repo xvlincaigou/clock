@@ -3,7 +3,7 @@
 }
 
 .App-header {
-  background-color: #023047;
+  background-color: #1b4965;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -11,17 +11,73 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  position: relative;
 }
 
 .mode-buttons {
-  margin-bottom: 20px;
+  width: 20vw;
+  position: absolute;
+  right: 12vw;
+  top: 44vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .mode-buttons button {
-  margin: 0 10px;
+  width: 14vw;
+  margin: 10px 0;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
+  outline: none;
+  background-color: #cae9ff;
+  color: #1b4964;
+  border-radius: 0;
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.mode-buttons button:hover {
+  transform: translateY(-5px);
+  box-shadow: 15px 15px 15px rgba(255, 255, 255, 0.5);
+}
+
+.mode-buttons button:active {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  transform: translateY(0);
+  background-color: #bee9eb;
+  color: #1b4964;
+}
+
+.mode-buttons button.active {
+  background-color: #bee9eb;
+  width: 18vw;
+  color: #1b4964;
+}
+
+.mode-buttons .btn-tools {
+  width: 10vw;
+  margin: 10px 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: none;
+  outline: none;
+  background-color: #cae9ff;
+  color: #1b4964;
+  border-radius: 0;
+  clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 20% 100%, 0% 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .clock-container {
@@ -52,7 +108,7 @@
   text-align: center;
   padding: 10px;
   margin-top: 20px;
-  background-color: #FFB703;
+  background-color: #ffb703;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -64,14 +120,8 @@
   margin-bottom: 25px;
 }
 
-.btn-info {
-  font-size: 24px !important;
-  color: #001219 !important;
-  background-color: #8ECAE6 !important;
-}
-
 .btn-secondary {
   font-size: 18px !important;
   color: #001219 !important;
-  background-color: #FFB703 !important;
+  background-color: #ffb703 !important;
 }

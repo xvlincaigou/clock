@@ -8,15 +8,47 @@ import Alarm from './Alarm';
 function App() {
   const [mode, setMode] = useState('clock');
 
+  const handleClick = newMode => {
+    const audio = new Audio('click-sound.mp3'); // 确保项目中有 click-sound.mp3 文件
+    audio.play();
+    setMode(newMode);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className='title'>寸阴寸金</h1>
+        <h1 className="title">寸阴寸金</h1>
         <div className="mode-buttons">
-          <button className="btn btn-info" onClick={() => setMode('clock')}><strong>Clock</strong></button>
-          <button className="btn btn-info" onClick={() => setMode('stopwatch')}><strong>Stopwatch</strong></button>
-          <button className="btn btn-info" onClick={() => setMode('timer')}><strong>Timer</strong></button>
-          <button className="btn btn-info" onClick={() => setMode('alarm')}><strong>Alarm</strong></button>
+          <button 
+            className={'btn-tools'}
+            onClick={() => handleClick('clock')}
+          >
+            <strong>Tools</strong>
+          </button>
+          <button
+            className={`btn ${mode === 'clock' ? 'active' : ''}`}
+            onClick={() => handleClick('clock')}
+          >
+            <strong>Clock</strong>
+          </button>
+          <button
+            className={`btn ${mode === 'stopwatch' ? 'active' : ''}`}
+            onClick={() => handleClick('stopwatch')}
+          >
+            <strong>Stopwatch</strong>
+          </button>
+          <button
+            className={`btn ${mode === 'timer' ? 'active' : ''}`}
+            onClick={() => handleClick('timer')}
+          >
+            <strong>Timer</strong>
+          </button>
+          <button
+            className={`btn ${mode === 'alarm' ? 'active' : ''}`}
+            onClick={() => handleClick('alarm')}
+          >
+            <strong>Alarm</strong>
+          </button>
         </div>
         <div className="components-container">
           <Clock mode={mode} />
