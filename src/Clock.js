@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import './Clock.css';
 
 const Clock = ({ mode }) => {
   const calculateAngles = (date, offset) => {
@@ -69,7 +70,7 @@ const Clock = ({ mode }) => {
       const dy = moveEvent.clientY - centerY;
       const rawAngle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
       const newAngle = rawAngle > 0 ? rawAngle : 360 + rawAngle;
-      
+
       setAngles(prevAngles => {
         const absAngleDiff = Math.abs(newAngle - prevAngles[hand]);
         const absSmallerAngleDiff =
@@ -103,10 +104,11 @@ const Clock = ({ mode }) => {
           minute: (prevAngles.minute + minuteOffset + 360) % 360,
           second: (prevAngles.second + secondOffset + 360) % 360,
         };
-    
-        const multiplier = hand === 'hour' ? 60000 : hand === 'minute' ? 5000 : (500 / 6);
+
+        const multiplier =
+          hand === 'hour' ? 60000 : hand === 'minute' ? 5000 : 500 / 6;
         appendedOffset.current += angleDiff * multiplier;
-        console.log(appendedOffset, "new!");
+        console.log(appendedOffset, 'new!');
         return newAngles;
       });
     };
@@ -123,16 +125,18 @@ const Clock = ({ mode }) => {
   const formatTime = () => {
     const date = new Date();
     const time = new Date(date.getTime() + offset);
-    return `${time.getHours().toString().padStart(2, '0')}:${time
+    return `${time.getHours().toString().padStart(2, '0')} : ${time
       .getMinutes()
       .toString()
-      .padStart(2, '0')}:${time.getSeconds().toString().padStart(2, '0')}`;
+      .padStart(2, '0')} : ${time.getSeconds().toString().padStart(2, '0')}`;
   };
 
-  if (mode !== 'clock') return null;
+  if (mode !== 'clock')
+    return <div className="digital-time">{formatTime()}</div>;
 
   return (
     <div>
+      <div className="digital-time">{formatTime()}</div>
       <div className="clock-container">
         <svg className="clock-face" viewBox="0 0 100 100">
           <circle
@@ -143,6 +147,22 @@ const Clock = ({ mode }) => {
             strokeWidth="2"
             fill="white"
           />
+          <circle cx="50" cy="50" r="2" fill="white" />
+          <g transform="translate(90, 10)">
+            <circle
+              cx="0"
+              cy="0"
+              r="8"
+              fill="#cae9ff"
+              stroke="#62b6cb"
+              strokeWidth="2"
+            />
+            <path
+              d="M-4,-4 L4,4 M-4,4 L4,-4"
+              stroke="#000000"
+              strokeWidth="2"
+            />
+          </g>
           {[...Array(60)].map((_, i) => (
             <line
               key={i}
@@ -200,16 +220,21 @@ const Clock = ({ mode }) => {
             onMouseDown={e => handleMouseDown('second', e)}
           />
         </svg>
-        <div className="digital-time">{formatTime()}</div>
         <button
           className="btn btn-secondary"
           onClick={() => {
             if (isAdjusting) {
-              console.log(appendedOffset.current, "appendedOffset");
-              const newOffset = offset + appendedOffset.current - (new Date() - adjustBeginTime);
-              console.log(newOffset, "newOffset!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+              console.log(appendedOffset.current, 'appendedOffset');
+              const newOffset =
+                offset +
+                appendedOffset.current -
+                (new Date() - adjustBeginTime);
+              console.log(
+                newOffset,
+                'newOffset!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+              );
               setOffset(newOffset);
-              appendedOffset.current = 0; 
+              appendedOffset.current = 0;
             } else {
               setAdjustBeginTime(new Date());
             }

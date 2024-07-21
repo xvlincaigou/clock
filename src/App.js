@@ -17,7 +17,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className="title">寸阴寸金</h1>
         <div className="mode-buttons">
           <button 
             className={'btn-tools'}
