@@ -143,24 +143,41 @@ const Clock = ({ mode }) => {
             cx="50"
             cy="50"
             r="48"
-            stroke="black"
+            stroke="#62b6cb"
             strokeWidth="2"
-            fill="white"
+            fill="#1b4965"
           />
-          <circle cx="50" cy="50" r="2" fill="white" />
-          <g transform="translate(90, 10)">
-            <circle
-              cx="0"
-              cy="0"
-              r="8"
-              fill="#cae9ff"
-              stroke="#62b6cb"
-              strokeWidth="2"
-            />
+          <g
+            transform="translate(90, 10)"
+            onClick={() => {
+              if (isAdjusting) {
+                const newOffset =
+                  offset +
+                  appendedOffset.current -
+                  (new Date() - adjustBeginTime);
+                setOffset(newOffset);
+                appendedOffset.current = 0;
+              } else {
+                setAdjustBeginTime(new Date());
+              }
+              setIsAdjusting(!isAdjusting);
+            }}
+            style={{ cursor: 'pointer' }}
+          >
             <path
-              d="M-4,-4 L4,4 M-4,4 L4,-4"
-              stroke="#000000"
+              d="M 0,0 A 10,10 0 0 1 20,0"
+              fill="#62b6cb"
               strokeWidth="2"
+              transform="rotate(45 0 0) translate(-10, 3)"
+            />
+            <rect
+              x="-2"
+              y="0"
+              width="4"
+              height="8"
+              fill="#62b6cb"
+              strokeWidth="2"
+              transform="rotate(45 0 0)"
             />
           </g>
           {[...Array(60)].map((_, i) => (
@@ -171,7 +188,7 @@ const Clock = ({ mode }) => {
               x2="50"
               y2={i % 5 === 0 ? '10' : '8'}
               transform={`rotate(${i * 6} 50 50)`}
-              stroke="black"
+              stroke="#62b6cb"
             />
           ))}
           {[...Array(12)].map((_, i) => {
@@ -181,7 +198,14 @@ const Clock = ({ mode }) => {
             const x = 50 + radius * Math.cos(radian);
             const y = 50 + radius * Math.sin(radian);
             return (
-              <text key={i} x={x} y={y} textAnchor="middle" fontSize="4">
+              <text
+                key={i}
+                x={x}
+                y={y}
+                textAnchor="middle"
+                fontSize="5"
+                fontWeight="100"
+              >
                 {i + 1}
               </text>
             );
@@ -219,30 +243,8 @@ const Clock = ({ mode }) => {
             style={getHandStyle('second')}
             onMouseDown={e => handleMouseDown('second', e)}
           />
+          <circle cx="50" cy="50" r="2" fill="white" stroke="none" />
         </svg>
-        <button
-          className="btn btn-secondary"
-          onClick={() => {
-            if (isAdjusting) {
-              console.log(appendedOffset.current, 'appendedOffset');
-              const newOffset =
-                offset +
-                appendedOffset.current -
-                (new Date() - adjustBeginTime);
-              console.log(
-                newOffset,
-                'newOffset!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-              );
-              setOffset(newOffset);
-              appendedOffset.current = 0;
-            } else {
-              setAdjustBeginTime(new Date());
-            }
-            setIsAdjusting(!isAdjusting);
-          }}
-        >
-          {isAdjusting ? 'Save Time' : 'Adjust Time'}
-        </button>
       </div>
     </div>
   );
