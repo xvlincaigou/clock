@@ -1,22 +1,94 @@
+.container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    position: absolute !important;
+    top: 38vh !important;
+    left: 5vw !important;
+}
+
+.btn-primary {
+    position: absolute !important;
+    top: 0px !important;
+    left: -2px !important;
+    font-size: 18px !important;
+    width: 152px !important;
+    height: 54px !important;
+    color: #CAE9FF !important;
+    background-color: #013853 !important;
+    border-color: #013853 !important;
+    border-radius: 40px !important;
+}
+
+#upload-audio {
+    width: 500px !important;
+    height: 54px !important;
+    border-radius: 40px !important;
+    text-align: center !important;
+    padding-top: 8px !important;
+    padding-left: 32px !important;
+    background-color: #CAE9FF !important;
+    color: #1B4965 !important;
+    border-color: #CAE9FF !important;
+    font-size: 24px !important;
+}
+
+.custom-file-input {
+    width: 500px !important;
+    height: 54px !important;
+    border-radius: 40px !important;
+    text-align: center !important;
+    padding-right: 20px !important;
+    background-color: #CAE9FF !important;
+    color: #1B4965 !important;
+    border-color: #CAE9FF !important;
+    font-size: 24px !important;
+}
+#upload-audio-input {
+    opacity: 0 !important;
+}
+
+.btn-secondary {
+    font-size: 18px !important;
+    color: #CAE9FF !important;
+    background-color: #013853 !important;
+    border-color: #013853 !important;
+    border-radius: 40px !important;
+}
+
+.btn-warning {
+    font-size: 18px !important;
+    color: #013853 !important;
+    background-color: #5FA8D3 !important;
+    border-color: #5FA8D3 !important;
+    border-radius: 40px !important;
+}
+
+.alarm-list-container {
+    border-radius: 40px;
+    color: #1B4965;
+    background-color: #CAE9FF;
+    position: relative;
+    height: 250px;
+    width: 500px;
+    max-height: 250px;  /* 设置最大高度 */
+    max-width: 500px;   /* 设置最大宽度 */
+    overflow-y: auto;   /* 使内容在超过高度时滚动 */
+}
+
+#heading {
+    border-bottom: 3px dashed #5FA8D3;
+}
+
 .input-group {
-    margin-bottom: 25px !important;
+    margin-bottom: 18px !important;
 }
+
 .input-group-text {
-    color: aliceblue !important;
-    background-color: #219EBC !important;
+    color: #1B4965 !important;
 }
-.upload-title {
-    color: #FB8500;
-    margin-bottom: 15px;
-}
+
 .list-group-item {
     background-color: transparent !important;
-    color: #FB8500 !important;
-}
-.alarms-list-container {
-    position: relative;
-    max-height: 200px;  /* 设置最大高度 */
-    max-width: 400px;   /* 设置最大宽度 */
-    margin: 0 auto;     /* 居中 */
-    overflow-y: auto;   /* 使内容在超过高度时滚动 */
+    color: #1B4965 !important;
 }
