@@ -108,7 +108,6 @@ const Clock = ({ mode }) => {
         const multiplier =
           hand === 'hour' ? 60000 : hand === 'minute' ? 5000 : 500 / 6;
         appendedOffset.current += angleDiff * multiplier;
-        console.log(appendedOffset, 'new!');
         return newAngles;
       });
     };
@@ -134,9 +133,55 @@ const Clock = ({ mode }) => {
   if (mode !== 'clock')
     return <div className="digital-time">{formatTime()}</div>;
 
+  const stopButton = isAdjusting ? (
+    <path
+      d="M 0,0 A 10,10 0 0 1 20,0"
+      fill="#62b6cb"
+      strokeWidth="1"
+      transform="rotate(45 0 0) translate(-10, 3)"
+    />
+  ) : (
+    <path
+      d="M 0,0 A 10,10 0 0 1 20,0"
+      fill="#62b6cb"
+      strokeWidth="4"
+      transform="rotate(45 0 0) translate(-10, 3)"
+    />
+  );
+
+  const handleTimeChange = e => {
+    const timeRegex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+    const newTime = e.target.value.replace(/\s+/g, '');
+    if (timeRegex.test(newTime)) {
+      const currentDate = new Date();
+      const [currentHours, currentMinutes, currentSeconds] =
+        e.target.defaultValue.split(':');
+      currentDate.setHours(currentHours, currentMinutes, currentSeconds, 0);
+
+      const newDate = new Date();
+      const [newHours, newMinutes, newSeconds] = newTime.split(':');
+      newDate.setHours(newHours, newMinutes, newSeconds, 0);
+
+      appendedOffset.current += newDate - currentDate;
+      console.log(appendedOffset.current);
+    } else {
+      console.log('Invalid time format');
+      console.log(newTime);
+    }
+  };
+
   return (
     <div>
-      <div className="digital-time">{formatTime()}</div>
+      {isAdjusting ? (
+        <input
+          className="digital-time-input"
+          defaultValue={formatTime()}
+          onChange={handleTimeChange}
+        />
+      ) : (
+        <div className="digital-time">{formatTime()}</div>
+      )}
+
       <div className="clock-container">
         <svg className="clock-face" viewBox="0 0 100 100">
           <circle
@@ -164,12 +209,7 @@ const Clock = ({ mode }) => {
             }}
             style={{ cursor: 'pointer' }}
           >
-            <path
-              d="M 0,0 A 10,10 0 0 1 20,0"
-              fill="#62b6cb"
-              strokeWidth="2"
-              transform="rotate(45 0 0) translate(-10, 3)"
-            />
+            {stopButton}
             <rect
               x="-2"
               y="0"
