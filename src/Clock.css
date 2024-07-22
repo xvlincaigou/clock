@@ -1,58 +1,58 @@
 .clock-container {
-    width: 60vh;
-    height: 70vw;
-    margin: 8vh auto 0 1vw;
-    position: relative;
-    user-select: none;
-  }
-  
-  .clock-face {
-    width: 45vw;
-    height: 45vh;
-    stroke: #62b6cb;
-    fill: #cae9ff;
-  }
-  
-  .hour-hand,
-  .minute-hand,
-  .second-hand {
-    transform-origin: 50% 50%;
-    transition: transform 0.5s ease-in-out;
-    stroke: #000000;
-  }
-  
-  .second-hand {
-    stroke: #ff3131;
-  }
-  
-  .digital-time {
-    top: 10vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 10vw;
-    font-weight: bold;
-    color: #cae9ff;
-    text-align: center;
-    padding: none;
-    border-radius: 8px;
-    background-color: #1b4965;
-    outline: none;
-    letter-spacing: 10px;
-    text-align: center;
-  }
+  width: 60vh;
+  height: 70vw;
+  margin: 8vh auto 0 1vw;
+  position: relative;
+  user-select: none;
+}
 
-  .digital-time-input {
-    top: 10vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 10vw;
-    font-weight: bold;
-    color: #cae9ff;
-    text-align: center;
-    padding: 0;
-    background-color: inherit;
-    outline: none;
-    letter-spacing: 10px;
-    text-align: center;
-    border: none;
-    margin: 0;
-    width: 100%;
-  }
+.clock-face {
+  width: 45vw;
+  height: 45vh;
+  stroke: #62b6cb;
+  fill: #cae9ff;
+}
+
+.hour-hand,
+.minute-hand,
+.second-hand {
+  transform-origin: 50% 50%;
+  transition: transform 0.5s ease-in-out;
+  stroke: #000000;
+}
+
+.second-hand {
+  stroke: #ff3131;
+}
+
+.digital-time {
+  top: 10vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 10vw;
+  font-weight: bold;
+  color: #cae9ff;
+  text-align: center;
+  padding: none;
+  border-radius: 8px;
+  background-color: #1b4965;
+  outline: none;
+  letter-spacing: 10px;
+  text-align: center;
+}
+
+.digital-time-input {
+  top: 10vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 10vw;
+  font-weight: bold;
+  color: #cae9ff;
+  text-align: center;
+  padding: 0;
+  background-color: inherit;
+  outline: none;
+  letter-spacing: 10px;
+  text-align: center;
+  border: none;
+  margin: 0;
+  width: 100%;
+}
