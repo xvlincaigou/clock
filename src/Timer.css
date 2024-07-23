@@ -19,7 +19,7 @@
   background-color: #CAE9FF;
   position: relative;
   width: 100%; 
-  max-width: 600px; 
+  max-width: 100vh; 
   margin: 0 auto; 
 }
 
