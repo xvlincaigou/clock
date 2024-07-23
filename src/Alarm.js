@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css'
 import './App.css';
@@ -17,6 +17,7 @@ const Alarm = ({mode}) => {
   const [audio, setAudio] = useState(null);
   const [newAlarm, setNewAlarm] = useState('');
   const [current, setCurrent] = useState(new Date().toLocaleTimeString());
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const alarmWorkers = [];
@@ -50,6 +51,10 @@ const Alarm = ({mode}) => {
     }
   };
 
+  const addAudio = () => {
+    fileInputRef.current.click();
+  };
+
   const removeAlarm = (index) => {
     const updatedAlarms = alarms.filter((_, i) => i !== index);
     setAlarms(updatedAlarms);
@@ -78,39 +83,64 @@ const Alarm = ({mode}) => {
     return (
       <>
         <div>
-          <div className="container mt-4">
-            <h3 className="upload-title">Upload Audio File</h3>
-            <div className="input-group mb-3">
-              <input type="file" accept="audio/*" className="form-control" id="inputGroupFile02" onChange={handleFileChange} />
-              <label className="input-group-text" for="inputGroupFile02">Upload</label>
+          <div className="container">
+            <div class="input-group">
+              <button type="button" className="btn btn-primary" onClick={addAlarm}>
+                <strong>Add Alarm</strong>
+              </button>  
+              <div class="custom-file">
+                <input
+                  type="time" value={newAlarm} className="custom-file-input"
+                  onChange={(e) => setNewAlarm(e.target.value)}
+                />
+              </div>          
             </div>
-            <div class="input-group mt-4">
-              <button type="button" className="btn btn-warning" onClick={addAlarm}>Add Alarm</button>            
-              <input
-                type="time" value={newAlarm} className="form-control timePicker"
-                onChange={(e) => setNewAlarm(e.target.value)}
-              />
+            <div className="input-group">
+              <button type="button" className="btn btn-primary" onClick={addAudio} id="upload-audio-btn">
+                <strong>Upload Audio</strong>
+              </button>
+              <div className="custom-file" id="upload-audio">
+                <strong>{audioName}</strong>
+                <input 
+                  type="file" accept="audio/*" className="custom-file-input" id="upload-audio-input"
+                  ref={fileInputRef} onChange={handleFileChange} 
+                />
+              </div>
             </div>
-          </div>
-          
-          <div className="alarms-list-container">
-            <ul className="list-group list-group-numbered">
-              {alarms.map((alarm, index) => (
-                <li className="list-group-item list-group-item-info d-flex justify-content-between align-items-start" key={index}>
-                  <div class="ms-4 me-auto">
-                    <div class="fw-bold">{alarm}</div>
-                  </div>
-                  <button type="button" className="btn btn-danger" onClick={() => removeAlarm(index)}>Remove</button>
+            <div className="alarm-list-container">
+              <ul className="list-group">
+                <li className="list-group-item d-flex justify-content-center align-items-center" id="heading">
+                  <strong>Alarm List</strong>
                 </li>
-              ))}
-            </ul>
-          </div>
-          {audio && (
-            <div>
-              <p>Alarm ringing for {current}</p>
-              <button type="button" className="btn btn-secondary" onClick={stopAlarm}>Stop Alarm</button>
+                {alarms.map((alarm, index) => (
+                  <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
+                    <div className="col-1 text-left">
+                      {index + 1}
+                    </div>
+                    <div className="col-4 text-center">
+                      {alarm}
+                    </div>
+                    <div className="col-4 text-right">
+                      {audio && (
+                        <button type="button" className="btn btn-warning" onClick={stopAlarm}>
+                          <strong>Stop Alarm</strong>
+                        </button>
+                      )}       
+                    </div>
+                    <div className="col-3 text-right">
+                      <button type="button" className="btn btn-secondary" onClick={() => removeAlarm(index)}>Remove</button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
-          )}
+            {audio && (
+              <div>
+                <p>Alarm ringing for {current}</p>
+                <button type="button" className="btn btn-secondary" onClick={stopAlarm}>Stop Alarm</button>
+              </div>
+            )}           
+          </div>
         </div>
       </>
     );

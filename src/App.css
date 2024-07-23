@@ -87,9 +87,3 @@
   position: relative;
   z-index: 0;
 }
-
-.btn-secondary {
-  font-size: 18px !important;
-  color: #001219 !important;
-  background-color: #ffb703 !important;
-}
