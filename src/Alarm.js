@@ -1,3 +1,5 @@
+/*** By Getsuyōbi ***/
+
 import React, { useState, useEffect, useRef } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -150,3 +152,5 @@ const Alarm = ({mode}) => {
 };
 
 export default Alarm;
+
+/*** ***/
