@@ -8,20 +8,19 @@ import Alarm from './Alarm';
 function App() {
   const [mode, setMode] = useState('clock');
 
+  // 处理模式切换点击事件
   const handleClick = newMode => {
-    const audio = new Audio('click-sound.mp3'); // 确保项目中有 click-sound.mp3 文件
+    const audio = new Audio('click-sound.mp3');
     audio.play();
     setMode(newMode);
   };
 
+  // 在这里，不同的模式对应不同的组件，通过 mode 属性传递给组件
   return (
     <div className="App">
       <header className="App-header">
         <div className="mode-buttons">
-          <button 
-            className={'btn-tools'}
-            onClick={() => handleClick('clock')}
-          >
+          <button className={'btn-tools'} onClick={() => handleClick('clock')}>
             <strong>Tools</strong>
           </button>
           <button
