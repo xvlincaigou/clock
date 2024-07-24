@@ -96,17 +96,19 @@ const Timer = ({ mode }) => {
         Remaining Time:<br />{formatTime(remainingTime)}
       </div>
       {/* 沙漏动画，运行时和暂停时的样式不同 */}
-      {running ? (
-        <div className="movingshalou"> 
-            <div className="movingup"></div>
-            <div className="movingdown"></div>
-        </div>
-      ) : (
-        <div className="shalou">
-          <div className="up"></div>
-          <div className="down"></div>
-        </div>
-      )}
+      <div className="shalou-container">
+        {running ? (
+          <div className="movingshalou"> 
+              <div className="movingup"></div>
+              <div className="movingdown"></div>
+          </div>
+        ) : (
+          <div className="shalou">
+            <div className="up"></div>
+            <div className="down"></div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
