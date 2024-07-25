@@ -11,7 +11,7 @@ const Alarm = ({mode}) => {
     JSON.parse(localStorage.getItem('alarms')) || []
   );
   const [audioURL, setAudioURL] = useState(
-    localStorage.getItem('audioURL') || ''
+    localStorage.getItem('audioURL') || 'default.mp3'
   );
   const [audioName, setAudioName] = useState(
     localStorage.getItem('audioName') || ''
@@ -24,32 +24,54 @@ const Alarm = ({mode}) => {
   useEffect(() => {
     const alarmWorkers = [];
     alarms.forEach((alarm, index) => {
-      // Use a worker to handle the alarm logic
+      const alarmDate = new Date(alarm);
       const worker = new Worker(new URL('./AlarmWorker.js', import.meta.url));
-      worker.postMessage({ alarmTime: alarm, audioURL: audioURL });
-      worker.onmessage = (e) => {
+      worker.postMessage({ alarmTime: alarm, audioUrl: audioURL });
+      worker.onmessage = (e) => { // Use a worker to handle the alarm logic
         if (e.data.type === 'ALARM_TRIGGERED') {
-          stopAlarm();  // Stop the previous alarm
+          stopAlarm();  // Stop the current audio
           setCurrent(alarm);
-          const newAudio = new Audio(e.data.audioURL? e.data.audioURL : 'default.mp3');
+          const newAudio = new Audio(e.data.audioUrl ? e.data.audioUrl : 'default.mp3');
           newAudio.play();
           setAudio(newAudio);
-          removeAlarm(index);  // Remove the triggered alarm
+          alarms.splice(index, 1);  // Remove the triggered alarm from the list
+          // Set the alarm to the next day if it's already passed
+          const updatedAlarm = new Date(alarm);
+          updatedAlarm.setDate(updatedAlarm.getDate() + 1);
+          alarms.push(updatedAlarm.toISOString());
+          setAlarms(alarms);
         }
       };
       alarmWorkers.push(worker);
     });
-
     return () => {
       alarmWorkers.forEach(worker => worker.terminate());
     };
-  }, [alarms, audioURL]);
+  }, [alarms, audio, audioURL]);
+
+  /*
+          const newWorker = new Worker(new URL('./AlarmWorker.js', import.meta.url));
+          newWorker.postMessage({ alarmTime: newAlarm, audioURL: audioURL });
+          newWorker.onmessage = (e) => {
+            if (e.data.type === 'ALARM_TRIGGERED') {
+              if (audio) audio.pause(); // Stop the current audio
+              setCurrent(newAlarm);
+              const anotherAudio = new Audio(e.data.audioURL ? e.data.audioURL : 'default.mp3');
+              anotherAudio.play();
+              setAudio(anotherAudio);
+            }
+          };
+          alarmWorkers.push(newWorker);    
+          */     
 
   const addAlarm = () => {
     if (newAlarm) {
-      const updatedAlarms = [...alarms, newAlarm];  // Add the new alarm to the list
+      const at_this_moment = new Date(new Date().setHours(new Date().getHours() + 8));
+      const today = at_this_moment.toISOString().split('T')[0];
+      var newAlarmTime = new Date(today + "T" + newAlarm);
+      if (newAlarmTime < new Date()) newAlarmTime.setDate(new Date(newAlarmTime).getDate() + 1);
+      const updatedAlarms = [...alarms, newAlarmTime.toISOString()];  // Add the new alarm to the list
       setAlarms(updatedAlarms);
-      localStorage.setItem('alarms', JSON.stringify(updatedAlarms));  // Save the updated list to local storage
       setNewAlarm('');
     }
   };
@@ -71,6 +93,7 @@ const Alarm = ({mode}) => {
       setAudio(null);
     }
   };
+
   // Handle the audio file input change event
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -121,11 +144,11 @@ const Alarm = ({mode}) => {
                       {index + 1}
                     </div>
                     <div className="col-4 text-center">
-                      {alarm}
+                      {new Date(alarm).toLocaleTimeString()}
                     </div>
                     <div className="col-4 text-right">
-                      {audio && (
-                        <button type="button" className="btn btn-warning" onClick={stopAlarm}>
+                      {audio && new Date(current).toLocaleTimeString() === new Date(alarm).toLocaleTimeString() && (
+                        <button type="button" className="btn btn-warning" onClick={() => stopAlarm()}>
                           <strong>Stop Alarm</strong>
                         </button>
                       )}       
@@ -136,13 +159,7 @@ const Alarm = ({mode}) => {
                   </li>
                 ))}
               </ul>
-            </div>
-            {audio && (
-              <div>
-                <p>Alarm ringing for {current}</p>
-                <button type="button" className="btn btn-secondary" onClick={stopAlarm}>Stop Alarm</button>
-              </div>
-            )}           
+            </div>   
           </div>
         </div>
       </>
