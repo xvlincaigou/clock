@@ -36,10 +36,13 @@ const Stopwatch = ({ mode }) => {
     return () => clearInterval(interval);
   }, [running, elapsed]);
 
-  const formatTime = (time) => {
+  const formatTime = time => {
     const minutes = String(Math.floor(time / 60000)).padStart(2, '0');
     const seconds = String(Math.floor((time % 60000) / 1000)).padStart(2, '0');
-    const milliseconds = String(Math.floor((time % 1000) / 10)).padStart(2, '0');
+    const milliseconds = String(Math.floor((time % 1000) / 10)).padStart(
+      2,
+      '0'
+    );
     return `${minutes} : ${seconds} . ${milliseconds}`;
   };
 
@@ -74,8 +77,12 @@ const Stopwatch = ({ mode }) => {
     localStorage.removeItem('running');
   };
 
-  const minLapTime = laps.length ? Math.min(...laps.map(lap => lap.lapTime)) : null; // 找最小lap
-  const maxLapTime = laps.length ? Math.max(...laps.map(lap => lap.lapTime)) : null; // 找最大lap
+  const minLapTime = laps.length
+    ? Math.min(...laps.map(lap => lap.lapTime))
+    : null; // 找最小lap
+  const maxLapTime = laps.length
+    ? Math.max(...laps.map(lap => lap.lapTime))
+    : null; // 找最大lap
 
   if (mode !== 'stopwatch') {
     return null;
@@ -83,9 +90,7 @@ const Stopwatch = ({ mode }) => {
 
   return (
     <div className="stopwatch-container">
-      <div className="time-display">
-        {formatTime(elapsed)}
-      </div>
+      <div className="time-display">{formatTime(elapsed)}</div>
       <div className="laps-container">
         <div className="laps-list">
           <div className="laps-header">
@@ -94,9 +99,17 @@ const Stopwatch = ({ mode }) => {
             <div className="lap-header-text">total time</div>
           </div>
           <ul className="laps">
-            {laps.map((lap) => (
+            {laps.map(lap => (
               <li key={lap.index} className="lap-item">
-                <div className={`lap-index ${lap.lapTime === minLapTime ? 'min-lap' : lap.lapTime === maxLapTime ? 'max-lap' : ''}`}>
+                <div
+                  className={`lap-index ${
+                    lap.lapTime === minLapTime
+                      ? 'min-lap'
+                      : lap.lapTime === maxLapTime
+                      ? 'max-lap'
+                      : ''
+                  }`}
+                >
                   {`lap ${lap.index}`}
                 </div>
                 <div className="lap-time">{formatTime(lap.lapTime)}</div>

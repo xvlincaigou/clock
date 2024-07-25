@@ -20,7 +20,7 @@ const Timer = ({ mode }) => {
             clearInterval(interval);
             setRunning(false);
             if (time === 1) {
-              alert("倒计时结束！"); // 倒计时结束时弹窗提示
+              alert('倒计时结束！'); // 倒计时结束时弹窗提示
             }
             return 0;
           }
@@ -32,7 +32,7 @@ const Timer = ({ mode }) => {
   }, [running]);
 
   // 格式化时间显示
-  const formatTime = (time) => {
+  const formatTime = time => {
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = time % 60;
@@ -43,17 +43,17 @@ const Timer = ({ mode }) => {
   const padNumber = num => num.toString().padStart(2, '0');
 
   // 处理小时、分钟、秒的变化
-  const handleHourChange = (e) => {
+  const handleHourChange = e => {
     const newHours = Math.max(0, Math.min(23, Number(e.target.value)));
     setHours(newHours);
   };
 
-  const handleMinuteChange = (e) => {
+  const handleMinuteChange = e => {
     const newMinutes = Math.max(0, Math.min(59, Number(e.target.value)));
     setMinutes(newMinutes);
   };
 
-  const handleSecondChange = (e) => {
+  const handleSecondChange = e => {
     const newSeconds = Math.max(0, Math.min(59, Number(e.target.value)));
     setSeconds(newSeconds);
   };
@@ -63,7 +63,7 @@ const Timer = ({ mode }) => {
     if (!running && remainingTime === 0) {
       setRemainingTime(hours * 3600 + minutes * 60 + seconds);
     } else if (running && remainingTime === 0) {
-      alert("倒计时结束！"); // 当计时器暂停且剩余时间为0时提示
+      alert('倒计时结束！'); // 当计时器暂停且剩余时间为0时提示
     }
     setRunning(!running);
   };
@@ -84,23 +84,47 @@ const Timer = ({ mode }) => {
 
   // 渲染计时器组件界面
   return (
-    <div className='timer-container'>
+    <div className="timer-container">
       <div className="timer-inputAndButtons-container">
-        <input type="number" className="timer-input" placeholder="Hours" value={padNumber(hours)} onChange={handleHourChange} />
-        <input type="number" className="timer-input" placeholder="Minutes" value={padNumber(minutes)} onChange={handleMinuteChange} />
-        <input type="number" className="timer-input" placeholder="Seconds" value={padNumber(seconds)} onChange={handleSecondChange} />
-        <button onClick={toggleRunning} className="control-button">{running ? 'Pause' : 'Start'}</button>
-        <button onClick={resetTimer} className="control-button">Reset</button>
+        <input
+          type="number"
+          className="timer-input"
+          placeholder="Hours"
+          value={padNumber(hours)}
+          onChange={handleHourChange}
+        />
+        <input
+          type="number"
+          className="timer-input"
+          placeholder="Minutes"
+          value={padNumber(minutes)}
+          onChange={handleMinuteChange}
+        />
+        <input
+          type="number"
+          className="timer-input"
+          placeholder="Seconds"
+          value={padNumber(seconds)}
+          onChange={handleSecondChange}
+        />
+        <button onClick={toggleRunning} className="control-button">
+          {running ? 'Pause' : 'Start'}
+        </button>
+        <button onClick={resetTimer} className="control-button">
+          Reset
+        </button>
       </div>
       <div className="remaining-time">
-        Remaining Time:<br />{formatTime(remainingTime)}
+        Remaining Time:
+        <br />
+        {formatTime(remainingTime)}
       </div>
       {/* 沙漏动画，运行时和暂停时的样式不同 */}
       <div className="shalou-container">
         {running ? (
-          <div className="movingshalou"> 
-              <div className="movingup"></div>
-              <div className="movingdown"></div>
+          <div className="movingshalou">
+            <div className="movingup"></div>
+            <div className="movingdown"></div>
           </div>
         ) : (
           <div className="shalou">
