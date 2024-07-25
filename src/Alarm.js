@@ -1,4 +1,4 @@
-/*** By Getsuyōbi ***/
+/*** By bbbpimasheep ***/
 
 import React, { useState, useEffect, useRef } from 'react';
 
@@ -24,16 +24,17 @@ const Alarm = ({mode}) => {
   useEffect(() => {
     const alarmWorkers = [];
     alarms.forEach((alarm, index) => {
+      // Use a worker to handle the alarm logic
       const worker = new Worker(new URL('./AlarmWorker.js', import.meta.url));
       worker.postMessage({ alarmTime: alarm, audioURL: audioURL });
       worker.onmessage = (e) => {
         if (e.data.type === 'ALARM_TRIGGERED') {
-          stopAlarm();
+          stopAlarm();  // Stop the previous alarm
           setCurrent(alarm);
           const newAudio = new Audio(e.data.audioURL? e.data.audioURL : 'default.mp3');
           newAudio.play();
           setAudio(newAudio);
-          removeAlarm(index);
+          removeAlarm(index);  // Remove the triggered alarm
         }
       };
       alarmWorkers.push(worker);
@@ -46,15 +47,15 @@ const Alarm = ({mode}) => {
 
   const addAlarm = () => {
     if (newAlarm) {
-      const updatedAlarms = [...alarms, newAlarm];
+      const updatedAlarms = [...alarms, newAlarm];  // Add the new alarm to the list
       setAlarms(updatedAlarms);
-      localStorage.setItem('alarms', JSON.stringify(updatedAlarms));
+      localStorage.setItem('alarms', JSON.stringify(updatedAlarms));  // Save the updated list to local storage
       setNewAlarm('');
     }
   };
 
   const addAudio = () => {
-    fileInputRef.current.click();
+    fileInputRef.current.click(); // Open the file input dialog
   };
 
   const removeAlarm = (index) => {
@@ -70,14 +71,14 @@ const Alarm = ({mode}) => {
       setAudio(null);
     }
   };
-
+  // Handle the audio file input change event
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setAudioURL(url); setAudioName(file.name);
-      localStorage.setItem('audioURL', audioURL);
-      localStorage.setItem('audioName', audioName);
+      localStorage.setItem('audioURL', audioURL);    // Save the audio URL to local storage
+      localStorage.setItem('audioName', audioName);  // Save the audio name to local storage
     }
   };
 
