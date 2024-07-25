@@ -1,21 +1,21 @@
 /* eslint-disable no-restricted-globals */
 
-/*** By Getsuyo-bi ***/
+/*** By bbbpimasheep ***/
 
 self.onmessage = (e) => {
     const { alarmTime, audioUrl } = e.data;
     setInterval(() => {
-        const currentTime = new Date();
+        const currentTime = new Date(); // get current time
         const [hours, minutes] = alarmTime.split(':');
         const alarmDate = new Date();
+        // set alarm date with hours and minutes
         alarmDate.setHours(hours);
         alarmDate.setMinutes(minutes);
         alarmDate.setSeconds(0);
-
-        if (currentTime >= alarmDate) {
-            self.postMessage({ type: 'ALARM_TRIGGERED', audioUrl });
+        if (currentTime >= alarmDate) {  // check if current time is greater than or equal to alarm time
+            self.postMessage({ type: 'ALARM_TRIGGERED', audioUrl });    // send message to main thread with audioUrl
         }
-    }, 1000);
+    }, 1000);   // check every second
 };
 
 /*** ***/
